@@ -1,7 +1,7 @@
 # Career Success Prediction
 
 ## Project Overview
-Predict **Work-Life Balance** based on career and education data using machine learning models (Linear Regression, Decision Tree, Random Forest). The project includes:
+Predict **Career success** based on  education data using machine learning models (Linear Regression, Decision Tree, Random Forest). The project includes:
 1. **Modeling:** Building and comparing models to find the best performer.
 2. **API Deployment:** FastAPI for prediction using the best model.
 3. **Mobile App:** Flutter app for user input and prediction.
