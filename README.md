@@ -36,4 +36,5 @@ Source: [Kaggle](https://www.kaggle.com/)
 - **Endpoint:** `POST /predict`
 - **Input:** JSON with career and education metrics
 - **Output:** Predicted Work-Life Balance
-- **Public URL:** [https://myapi.example.com/docs](https://myapi.example.com/docs) (Replace with actual URL)
+- **Public URL:** https://linear-regression-model-m6bj.onrender.com/docs
+  
