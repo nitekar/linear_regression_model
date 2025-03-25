@@ -52,7 +52,8 @@ class _PredictionScreenState extends State<PredictionScreen>
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DisplayScreen(prediction: result),
+         builder: (context) => DisplayScreen(prediction: result),
+
         ),
       );
     } else {

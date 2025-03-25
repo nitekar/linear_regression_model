@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'prediction.dart';
+import 'prediction_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

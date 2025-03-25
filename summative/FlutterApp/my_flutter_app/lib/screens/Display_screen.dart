@@ -1,143 +1,93 @@
 import 'package:flutter/material.dart';
 
-class DisplayScreen extends StatelessWidget {
-  final dynamic predictionResult;
+class DisplayScreen extends StatefulWidget {
+  final String prediction;
 
-  DisplayScreen({required this.predictionResult});
+  DisplayScreen({required this.prediction});
+
+  @override
+  _DisplayScreenState createState() => _DisplayScreenState();
+}
+
+class _DisplayScreenState extends State<DisplayScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset(0, 0),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Prediction Result'),
-        centerTitle: true,
+        title: Text('Prediction Result', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
+      backgroundColor: Colors.grey[900],
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Career Prediction Icon
-              Icon(
-                _getIconForPrediction(),
-                size: 100,
-                color: _getColorForPrediction(),
-              ),
-              
-              SizedBox(height: 20),
-              
-              // Prediction Title
-              Text(
-                _getPredictionTitle(),
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: _getColorForPrediction(),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              
-              SizedBox(height: 20),
-              
-              // Detailed Prediction Description
-              Text(
-                _getPredictionDescription(),
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              
-              SizedBox(height: 40),
-              
-              // Buttons for further action
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: SlideTransition(
+          position: _slideAnimation,
+          child: Card(
+            color: Colors.grey[800],
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  Text(
+                    'Predicted Value:',
+                    style: TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    widget.prediction,
+                    style: TextStyle(fontSize: 28, color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[700],
+                      backgroundColor: Colors.black,
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    child: Text('Back to Home'),
-                  ),
-                  SizedBox(width: 20),
-                  OutlinedButton(
-                    onPressed: () {
-                      // Potential future feature like detailed report
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Detailed report feature coming soon!')),
-                      );
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.blue[700],
-                    ),
-                    child: Text('More Details'),
+                    child: Text('Go Back', style: TextStyle(fontSize: 16, color: Colors.white)),
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
-  }
-
-  // Helper methods to interpret prediction
-  IconData _getIconForPrediction() {
-    switch (predictionResult) {
-      case 0:
-        return Icons.trending_down;
-      case 1:
-        return Icons.trending_flat;
-      case 2:
-        return Icons.trending_up;
-      default:
-        return Icons.help_outline;
-    }
-  }
-
-  Color _getColorForPrediction() {
-    switch (predictionResult) {
-      case 0:
-        return Colors.red;
-      case 1:
-        return Colors.orange;
-      case 2:
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  String _getPredictionTitle() {
-    switch (predictionResult) {
-      case 0:
-        return 'Low Potential';
-      case 1:
-        return 'Moderate Potential';
-      case 2:
-        return 'High Potential';
-      default:
-        return 'Inconclusive';
-    }
-  }
-
-  String _getPredictionDescription() {
-    switch (predictionResult) {
-      case 0:
-        return 'Based on the provided information, your career potential appears to be limited. Consider additional training or exploring alternative career paths.';
-      case 1:
-        return 'You have moderate career potential. With some strategic improvements and continued learning, you can enhance your career trajectory.';
-      case 2:
-        return 'Congratulations! Your career potential looks promising. Continue to leverage your strengths and pursue growth opportunities.';
-      default:
-        return 'Unable to provide a definitive prediction based on the given information.';
-    }
   }
 }
