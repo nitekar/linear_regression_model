@@ -31,10 +31,29 @@ Source: [Kaggle](https://www.kaggle.com/)
 
 ---
 
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/career-success-prediction.git
+   cd summative
+---
+
 ## API Deployment
 - **Framework:** FastAPI
-- **Endpoint:** `POST /predict`
 - **Input:** JSON with career and education metrics
-- **Output:** Predicted Work-Life Balance
+- **Output:** Career sucess Prediction
 - **Public URL:** https://linear-regression-model-m6bj.onrender.com/docs
+---
+**API install**
+cd ../API 
+pip install -r requirements.txt 
+python -m uvicorn prediction:app --host 127.0.0.1 --port 8000 --reload
+---
+Flutter App
+
+flutter pub get
+flutter run
+
+##Demo video https://youtu.be/Jk90KCtsPaI
   
